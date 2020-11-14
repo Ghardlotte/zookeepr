@@ -3,6 +3,7 @@ const PORT = process.env.PORT || 3001;
 const app = express();
 const fs = require('fs');
 const path = require('path');
+app.use(express.static('zookeepr-public/zookeepr-public'));
 
 // parse incoming string or array data
 app.use(express.urlencoded({ extended: true }));
@@ -109,6 +110,18 @@ function filterByQuery(query, animalsArray) {
       const animal = createNewAnimal(req.body, animals);
       res.json(animal);
     }
+  });
+
+  app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, './zookeepr-public/zookeepr-public/index.html'));
+  });
+
+  app.get('/animals', (req, res) => {
+    res.sendFile(path.join(__dirname, './zookeepr-public/zookeepr-public/animals.html'));
+  });
+
+  app.get('/zookeepers', (req, res) => {
+    res.sendFile(path.join(__dirname, './zookeepr-public/zookeepr-public/zookeepers.html'));
   });
 
   app.listen(PORT, () => {
